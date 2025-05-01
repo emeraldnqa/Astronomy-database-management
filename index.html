@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+    <!-- <link rel="stylesheet" href="styles.css">   -->
+
+    <title>Astronomy Database Application</title>
+</head>
+
+<body>
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+    <h1>Database Connection Status:
+        <!-- An in-line placeholder to display connection status. -->
+        <span id="dbStatus"> </span>
+        <!-- A loading GIF, will be hided once get the status. -->
+        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+    </h1>
+
+    <a href="/test-page">Go to test page</a> <br>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <button id="refresh-tables">Refresh</button>
+
+    <!-- Show 'Demotable'. 
+        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <h2>Show Celestial Bodies</h2>
+    <table id="celestial_body" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>CB Name</th>
+                <th>Coordinate</th>
+                <th>Visibility</th>
+                <th>Distance</th>
+                <th>Diameter</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Insert Star </h2>
+    <form id="insertStar">
+        Celestial Body Name: <input type="text" id="insertCbName"> <br><br>
+        Coordinate: Right Ascension <input type="number" id="insertCoordinateHour">h
+        <input type="number" id="insertCoordinateMinute">m <br>
+        and Declination <input type="number" id="insertCoordinateDegree">°
+        <input type="number" id="insertCoordinateArcminute">'
+        <br><br>
+        Visible: <input type="checkbox" id="insertVisible"> <br><br>
+        Distance: <input type="number" id="insertDistance">km <br><br>
+        Diameter: <input type="number" id="insertDiameter">km <br><br>
+        Temperature: <input type="number" id="insertTemperature">K <br><br>
+        Spectral Class: <input type="text" id="insertSpectralClass"> <br><br>
+        Luminosity Class: <input type="text" id="insertLuminosityClass"> <br><br>
+        Color: <input type="text" id="insertColor"> <br><br>
+        Age: <input type="number" id="insertAge"> <br><br>
+
+        <button type="submit"> Insert </button> <br>
+    </form>
+    <div id="insertStarResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Insert Observatory </h2>
+    <form id="insertObservatory">
+        Observatory Name: <input type="text" id="insertObsName"> <br><br>
+        Observatory ID <input type="number" id="insertObsId"> <br><br>
+        Address: <input type="text" id="insertAddress"> <br><br>
+        <button type="submit"> Insert </button> <br>
+    </form>
+    <div id="insertObsResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Insert Telescope </h2>
+    <form id="insertTelescope">
+        Telescope Name: <input type="text" id="insertTelName"> 
+        Manufacture Date: <input type="date" id="insertTelManufactureDate"> <br><br>
+        Observatory ID <input type="number" id="insertObsId"> <br><br>
+        Model: <input type="text" id="insertTelModel"> <br><br>
+        <button type="submit"> Insert </button> <br>
+    </form>
+    <div id="insertTelResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Insert Picture </h2>
+    <form id="insertPicture">
+        Picture ID: <input type="number" id="insertPictureId"> <br><br>
+        Date Taken: <input type="date" id="insertPictureDate"> <br><br>
+        Link <input type="text" id="insertPictureLink"> <br><br>
+        tel_name: <input type="text" id="insertPictureTelName"> <br><br>
+
+        Celestial Body Name: <input type="text" id="insertPictureCbName"> <br><br>
+        Coordinate: Right Ascension <input type="number" id="insertPictureCoordinateHour">h
+        <input type="number" id="insertPictureCoordinateMinute">m <br>
+        and Declination <input type="number" id="insertPictureCoordinateDegree">°
+        <input type="number" id="insertPictureCoordinateArcminute">'
+        <br><br>
+        <button type="submit"> Insert </button> <br>
+    </form>
+    <div id="insertPictureResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Delete Celestial Body </h2>
+    <form id="deleteCelestialBody">
+        Celestial Body Name: <input type="text" id="deleteCbName"> <br><br>
+        Coordinate: Right Ascension <input type="number" id="deleteCoordinateHour">h
+        <input type="number" id="deleteCoordinateMinute">m <br>
+        and Declination <input type="number" id="deleteCoordinateDegree">°
+        <input type="number" id="deleteCoordinateArcminute">'
+        <br><br>
+        <button type="submit"> Delete </button> <br>
+    </form>
+    <div id="deleteCelestialBodyResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Update Star </h2>
+    <form id="updateCelestialBody">
+        Celestial Body Name: <input type="text" id="updateCbName"> <br><br>
+        Coordinate: Right Ascension <input type="number" id="updateCoordinateHour">h
+        <input type="number" id="updateCoordinateMinute">m <br>
+        and Declination <input type="number" id="updateCoordinateDegree">°
+        <input type="number" id="updateCoordinateArcminute">'
+        <br><br>
+
+        <!-- <input type="checkbox" id="shouldUpdateCbName"> New Celestial Body Name: <input type="text" id="newCbName"> <br><br> -->
+        <!-- <input type="checkbox" id="shouldUpdateCbCoordinate"> New Coordinate: Right Ascension <input type="number" id="newCoordinateHour">h -->
+        <!--     <input type="number" id="newCoordinateMinute">m <br> -->
+        <!--     and Declination <input type="number" id="newCoordinateDegree">° -->
+        <!--     <input type="number" id="newCoordinateArcminute">' -->
+        <!--     <br><br> -->
+        <input type="checkbox" id="shouldUpdateVisible"> New Visible: <input type="checkbox" id="newVisible"> <br><br>
+        <input type="checkbox" id="shouldUpdateDistance"> New Distance: <input type="number" id="newDistance"> <br><br>
+        <input type="checkbox" id="shouldUpdateDiameter"> New Diameter: <input type="number" id="newDiameter"> <br><br>
+
+        <input type="checkbox" id="shouldUpdateTemperature"> Temperature: <input type="number" id="newTemperature">K <br><br>
+        <input type="checkbox" id="shouldUpdateSpectralClass"> Spectral Class: <input type="text" id="newSpectralClass"> <br><br>
+        <input type="checkbox" id="shouldUpdateLuminosityClass"> Luminosity Class: <input type="text" id="newLuminosityClass"> <br><br>
+        <input type="checkbox" id="shouldUpdateColor"> Color: <input type="text" id="newColor"> <br><br>
+        <input type="checkbox" id="shouldUpdateAge"> Age: <input type="number" id="newAge"> <br><br>
+        <button type="submit"> Update </button> <br>
+    </form>
+    <div id="updateCelestialBodyResultMsg"></div>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Get Celestial Bodies within Distance </h2>
+    <form id="celestialBodyCheckDistance">
+        Distance: <input type="number" id="celestialBodyCheckDistanceValue"> <br><br>
+        <button type="submit"> Check </button> <br>
+    </form>
+    <table id="celestial_bodies_within_distance" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>CB Name</th>
+                <th>Coordinate</th>
+                <th>Visibility</th>
+                <th>Distance</th>
+                <th>Diameter</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Astronomers and Authored Theories </h2>
+    Choose fields to fetch: <br>
+    <input type="checkbox" id="astronomersAuthoredAstID">Astronomer ID<br>
+    <input type="checkbox" id="astronomersAuthoredThName">Theory Name<br>
+    <input type="checkbox" id="astronomersAuthoredPhName">Phenomena Name<br>
+    <input type="checkbox" id="astronomersAuthoredAstName">Astronomer Name<br>
+    <button id="astronomersAuthoredFetch">Fetch</button> <br><br>
+    <table id="astronomers_authored" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <h2> Search for Observatories containing Telescope </h2>
+    <form id="observatoriesTelecopes">
+        Telescope Name: <input type="text" id="observatoriesTelecopesThName">
+        <button type="submit">Search</button>
+        <br><br>
+    </form>
+
+    <table id="search_observatories_telecopes" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Observatory Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="observatoriesTelecopesMsg"></div>
+        
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <button id="find-max-dist">Find</button>
+
+    <h2> Celestial body with max distance for every observatory </h2>
+
+    <table id="aggregation-group-by" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Observatory ID</th>
+                <th>Observatory Name</th>
+                <th>Celestial Body Name</th>
+                <th>Celestial Body Distance</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <button id="find-oldest-tel">Find</button>
+
+    <h2> Oldest manufacturing date of telecope among observatories that have 2 or more telescopes </h2>
+
+    <table id="aggregation-with-having" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Observatory ID</th>
+                <th>Manufactured Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <button id="find-avg-count">Find</button>
+    
+    <h2> Average count of pictures taken overall by individual observatories </h2>
+
+    <table id="nested-aggregation-with-group-by" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Average Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <hr><br> <!-- ========================================================================= -->
+
+    <button id="find-obs">Find</button>
+
+    <h2> Observatories that have taken a picture of all the celestial bodies in the database </h2>
+
+    <table id="division" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Observatory ID</th>
+                <th>Observatory Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <!-- ===================================================================================== -->
+    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>
